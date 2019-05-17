@@ -1,0 +1,3 @@
+[submodule "zlib-src"]
+	path = zlib-src
+	url = https://github.com/madler/zlib.git
