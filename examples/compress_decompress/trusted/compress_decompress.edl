@@ -14,6 +14,6 @@ enclave {
 
 
     trusted {
-    	public int test_compress([out] Byte *compr, [out] uLong *comprLen, [out] Byte *uncompr, [out] uLong *uncomprLen);
+    	public int test_compress();
     };
 };

@@ -177,16 +177,15 @@ int SGX_CDECL main(int argc, char *argv[])
     sgx_status_t ret = SGX_ERROR_UNEXPECTED;
     int ecall_return = 0;
 
-    Byte compr[50], uncompr[50];
+    Byte compr[10000], uncompr[10000];
     uLong comprLen, uncomprLen;
 
-    ret = test_compress(global_eid, &ecall_return, &compr[0], &comprLen, &uncompr[0], &uncomprLen);
+    ret = test_compress(global_eid, &ecall_return);
     if (ret != SGX_SUCCESS)
         abort();
 
     if (ecall_return == 0) {
       printf("Application ran with success\n");
-      //printf("Compressed length: %u", comprLen);
     }
     else
     {

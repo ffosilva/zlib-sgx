@@ -7,7 +7,7 @@
 #include "compress_decompress.h"
 #include "compress_decompress_t.h" /* print_string */
 
-static z_const char hello[] = "Juntos e shallow now!";
+static z_const char hello[] = "Juntos e shallow now!\nJuntos e shallow now!\nJuntos e shallow now!\nJuntos e shallow now!";
 
 /* 
  * printf: 
@@ -48,10 +48,10 @@ static char* strcpy(char* destination, const char* source)
 	return ptr;
 }
 
-int test_compress(Byte *p_compr, uLong *p_comprLen, Byte *p_uncompr, uLong *p_uncomprLen)
+int test_compress()
 {
     Byte *compr, *uncompr;
-    uLong comprLen = 10000 * sizeof(int); /* don't overflow on MSDOS */
+    uLong comprLen = 10000 * sizeof(int);
     uLong uncomprLen = comprLen;
 
     compr = (Byte *)calloc((uInt)comprLen, 1);
@@ -60,7 +60,7 @@ int test_compress(Byte *p_compr, uLong *p_comprLen, Byte *p_uncompr, uLong *p_un
     int err;
     uLong len = (uLong)strlen(hello) + 1;
 
-    err = compress(compr, &comprLen, (const Bytef *)hello, len);
+    err = compress2(compr, &comprLen, (const Bytef *)hello, len, 9);
     CHECK_ERR(err, "compress");
 
     strcpy((char *)uncompr, "garbage");
@@ -75,8 +75,10 @@ int test_compress(Byte *p_compr, uLong *p_comprLen, Byte *p_uncompr, uLong *p_un
     }
     else
     {
-        printf("uncompress(): %s\n", (char *)uncompr);
+        printf("uncompress():\n%s\n", (char *)uncompr);
     }
+
+    printf("[ENCLAVE] Compressed Length: %u\n[ENCLAVE] Uncompressed Length: %u\n", comprLen, uncomprLen);
 
     return 0;
 }
