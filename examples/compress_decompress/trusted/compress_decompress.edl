@@ -1,0 +1,19 @@
+/* compress_decompress.edl - Top EDL file. */
+
+enclave {
+    include "zlib.h"
+
+    /* 
+     * ocall_compress_decompress_sample - invokes OCALL to display string buffer inside the enclave.
+     *  [in]: copy the string buffer to App outside.
+     *  [string]: specifies 'str' is a NULL terminated buffer.
+     */
+    untrusted {
+        void ocall_printf([in, string] const char *str);
+    };
+
+
+    trusted {
+    	public int test_compress([out] Byte *compr, [out] uLong *comprLen, [out] Byte *uncompr, [out] uLong *uncomprLen);
+    };
+};

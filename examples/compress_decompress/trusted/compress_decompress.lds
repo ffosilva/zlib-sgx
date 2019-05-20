@@ -1,0 +1,9 @@
+compress_decompress.so
+{
+    global:
+        g_global_data_sim;
+        g_global_data;
+        compress_decompress_entry;
+    local:
+        *;
+};
