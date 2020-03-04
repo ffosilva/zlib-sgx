@@ -6,7 +6,7 @@
 
 #define CHECK_ERR(err, msg) { \
     if (err != Z_OK) { \
-        printf("%s error: %d\n", msg, err); \
+        print_string("%s error: %d\n", msg, err); \
         return err; \
     } \
 }
@@ -15,7 +15,7 @@
 extern "C" {
 #endif
 
-void printf(const char *fmt, ...);
+void print_string(const char *fmt, ...);
 
 #if defined(__cplusplus)
 }

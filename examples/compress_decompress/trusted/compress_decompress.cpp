@@ -5,15 +5,15 @@
 #include <zlib.h>
 
 #include "compress_decompress.h"
-#include "compress_decompress_t.h" /* print_string */
+#include "compress_decompress_t.h" /* ocall_printf */
 
 static z_const char hello[] = "Juntos e shallow now!\nJuntos e shallow now!\nJuntos e shallow now!\nJuntos e shallow now!";
 
 /* 
- * printf: 
+ * print_string: 
  *   Invokes OCALL to display the enclave buffer to the terminal.
  */
-void printf(const char *fmt, ...)
+void print_string(const char *fmt, ...)
 {
     char buf[BUFSIZ] = {'\0'};
     va_list ap;
@@ -70,15 +70,15 @@ int test_compress()
 
     if (strcmp((char *)uncompr, hello))
     {
-        printf("bad uncompress\n");
+        print_string("bad uncompress\n");
         return -1;
     }
     else
     {
-        printf("uncompress():\n%s\n", (char *)uncompr);
+        print_string("uncompress():\n%s\n", (char *)uncompr);
     }
 
-    printf("[ENCLAVE] Compressed Length: %u\n[ENCLAVE] Uncompressed Length: %u\n", comprLen, uncomprLen);
+    print_string("[ENCLAVE] Compressed Length: %u\n[ENCLAVE] Uncompressed Length: %u\n", comprLen, uncomprLen);
 
     return 0;
 }
