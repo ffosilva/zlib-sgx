@@ -4,12 +4,12 @@
 
 This library preserves all the features of zlib, except gz* functions due to Intel(r) SGX limitations (fread, fwrite, ...).
 
-**Building**
+**Building (with examples)**
 
 ```bash
 git clone https://github.com/ffosilva/zlib-sgx.git --recursive && cd zlib-sgx
 mkdir build && cd build
-cmake ..
+cmake .. -DCOMPILE_EXAMPLES=YES
 make -j && make install
 ```
 

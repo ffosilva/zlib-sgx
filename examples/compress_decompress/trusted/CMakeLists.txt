@@ -2,7 +2,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}
                     ${SGX_INCLUDE_DIRS}
                     ${PROJECT_SOURCE_DIR}/config
                     ${ZLIB_SRC_PATH}
-                    ${CMAKE_BINARY_DIR}/examples/compress_decompress/trusted)
+                    ${CMAKE_CURRENT_BINARY_DIR})
 
 file(GLOB_RECURSE ENCLAVE_SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 file(GLOB ENCLAVE_SIGN_PK ${CMAKE_CURRENT_SOURCE_DIR}/${ENCLAVE_NAME}_private.pem)
@@ -10,15 +10,14 @@ file(GLOB ENCLAVE_CONFIG ${CMAKE_CURRENT_SOURCE_DIR}/${ENCLAVE_NAME}.config.xml)
 
 add_custom_target(${ENCLAVE_NAME}_t)
 add_custom_command(
-    TARGET ${ENCLAVE_NAME}_t
     COMMAND ${SGX_EDGER8R} --trusted ${EXAMPLE_EDL_FILE}
     --search-path ${SGX_INCLUDE_DIR}
-    BYPRODUCTS ${ENCLAVE_NAME}_t.c ${ENCLAVE_NAME}_t.h
+    OUTPUT ${ENCLAVE_NAME}_t.c ${ENCLAVE_NAME}_t.h
 )
 
 link_directories(${CMAKE_BINARY_DIR}/trusted)
 add_library(${ENCLAVE_NAME} SHARED ${ENCLAVE_SRC_FILES} ${ENCLAVE_NAME}_t.c)
-add_dependencies(${ENCLAVE_NAME} zlib_sgx_t ${ENCLAVE_NAME}_t)
+add_dependencies(${ENCLAVE_NAME} zlib_sgx_t)
 
 add_custom_command(
     TARGET ${ENCLAVE_NAME}
@@ -42,5 +41,5 @@ target_link_libraries(${ENCLAVE_NAME} "${SGX_COMMON_CFLAGS} \
 
 set_target_properties(${ENCLAVE_NAME} PROPERTIES PREFIX "")
 
-install(FILES ${CMAKE_BINARY_DIR}/examples/compress_decompress/trusted/${ENCLAVE_NAME}.signed.so
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${ENCLAVE_NAME}.signed.so
         DESTINATION example/compress_decompress)
